@@ -1,0 +1,9 @@
+analyzer:
+  errors:
+    unused_import: warning
+    dead_code: warning
+
+linter:
+  rules:
+    - prefer_final_locals
+    - use_super_parameters

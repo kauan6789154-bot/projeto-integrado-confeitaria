@@ -1,0 +1,6 @@
+name: confeitaria_estoque
+description: Aplicacao em Dart para controle de estoque de uma confeitaria.
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
