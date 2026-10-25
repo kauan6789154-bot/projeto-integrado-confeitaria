@@ -1,0 +1,57 @@
+PARTE 1 REVISADA - COMO USAR
+
+CENÁRIO A - CONTINUAR NO MESMO REPOSITÓRIO DO GITHUB
+
+1. Instale Git e VS Code.
+2. Clone o repositório:
+
+git clone https://github.com/kauan6789154-bot/projeto-integrado-confeitaria.git
+
+3. Entre na pasta:
+
+cd projeto-integrado-confeitaria
+
+4. Abra a pasta no VS Code.
+
+5. Apague as pastas antigas "frontend" e "backend", pois a aplicação agora ficará concentrada em "app".
+
+6. Copie para o projeto os arquivos e pastas desta Parte 1 revisada:
+   - app/
+   - database/
+   - powerbi/
+   - docs/
+   - README.md
+   - PLANO_DE_ETAPAS.md
+   - .gitignore
+
+7. Confira as alterações:
+
+git status
+
+8. Prepare o commit:
+
+git add .
+
+9. Faça o commit:
+
+git commit -m "refactor: adapta projeto para aplicacao em terminal"
+
+10. Envie ao GitHub:
+
+git push
+
+11. Confira novamente:
+
+git status
+
+O esperado é:
+nothing to commit, working tree clean
+
+REGISTROS RECOMENDADOS
+- print do VS Code mostrando a nova estrutura;
+- print do README;
+- print do terminal mostrando o commit;
+- print do GitHub com o commit publicado.
+
+PRÓXIMA ETAPA
+Parte 2 - Banco MySQL definitivo.
