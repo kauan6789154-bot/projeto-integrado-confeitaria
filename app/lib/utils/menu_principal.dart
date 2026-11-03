@@ -3,12 +3,14 @@ import '../repositories/categoria_repository.dart';
 import '../repositories/fornecedor_repository.dart';
 import '../repositories/produto_repository.dart';
 import '../services/cadastro_service.dart';
+import '../services/movimentacao_service.dart';
 import 'console.dart';
 import 'input_utils.dart';
 
 class MenuPrincipal {
   final Usuario usuario;
   final CadastroService cadastroService;
+  final MovimentacaoService movimentacaoService;
   final CategoriaRepository categoriaRepository;
   final FornecedorRepository fornecedorRepository;
   final ProdutoRepository produtoRepository;
@@ -16,6 +18,7 @@ class MenuPrincipal {
   MenuPrincipal({
     required this.usuario,
     required this.cadastroService,
+    required this.movimentacaoService,
     required this.categoriaRepository,
     required this.fornecedorRepository,
     required this.produtoRepository,
@@ -30,9 +33,11 @@ class MenuPrincipal {
       print('1 - Listar produtos');
       print('2 - Listar categorias');
       print('3 - Listar fornecedores');
-      print('4 - Cadastrar categoria');
-      print('5 - Cadastrar fornecedor');
-      print('6 - Cadastrar produto');
+      print('4 - Registrar entrada de estoque');
+      print('5 - Registrar saida de estoque');
+      print('6 - Cadastrar categoria');
+      print('7 - Cadastrar fornecedor');
+      print('8 - Cadastrar produto');
       print('0 - Sair');
 
       final opcao = InputUtils.lerTexto('Opcao: ');
@@ -49,12 +54,18 @@ class MenuPrincipal {
             await _listarFornecedores();
             break;
           case '4':
-            await _cadastrarCategoria();
+            await _registrarEntrada();
             break;
           case '5':
-            await _cadastrarFornecedor();
+            await _registrarSaida();
             break;
           case '6':
+            await _cadastrarCategoria();
+            break;
+          case '7':
+            await _cadastrarFornecedor();
+            break;
+          case '8':
             await _cadastrarProduto();
             break;
           case '0':
@@ -129,6 +140,7 @@ class MenuPrincipal {
         '${row.colByName('nome')} | '
         'Estoque: ${row.colByName('quantidade_estoque')} '
         '${row.colByName('unidade_medida')} | '
+        'Minimo: ${row.colByName('estoque_minimo')} | '
         'Categoria: ${row.colByName('categoria')} | '
         'Fornecedor: ${row.colByName('fornecedor')}',
       );
@@ -136,6 +148,62 @@ class MenuPrincipal {
 
     print('----------------------------------------------');
     print('Total: ${resultado.numOfRows}');
+  }
+
+  Future<void> _registrarEntrada() async {
+    print('');
+    print('REGISTRAR ENTRADA DE ESTOQUE');
+    await _listarProdutos();
+
+    final idProduto = InputUtils.lerInt('ID do produto: ');
+    final quantidade = InputUtils.lerDouble('Quantidade de entrada: ');
+
+    if (idProduto == null || quantidade == null) {
+      throw ArgumentError('Produto ou quantidade invalida.');
+    }
+
+    final motivo = InputUtils.lerTexto('Motivo: ');
+    final observacao = InputUtils.lerTexto('Observacao (opcional): ');
+
+    final novoSaldo = await movimentacaoService.registrarEntrada(
+      usuario: usuario,
+      idProduto: idProduto,
+      quantidade: quantidade,
+      motivo: motivo,
+      observacao: observacao,
+    );
+
+    print('');
+    print('Entrada registrada com sucesso.');
+    print('Novo saldo do produto: ${novoSaldo.toStringAsFixed(3)}');
+  }
+
+  Future<void> _registrarSaida() async {
+    print('');
+    print('REGISTRAR SAIDA DE ESTOQUE');
+    await _listarProdutos();
+
+    final idProduto = InputUtils.lerInt('ID do produto: ');
+    final quantidade = InputUtils.lerDouble('Quantidade de saida: ');
+
+    if (idProduto == null || quantidade == null) {
+      throw ArgumentError('Produto ou quantidade invalida.');
+    }
+
+    final motivo = InputUtils.lerTexto('Motivo: ');
+    final observacao = InputUtils.lerTexto('Observacao (opcional): ');
+
+    final novoSaldo = await movimentacaoService.registrarSaida(
+      usuario: usuario,
+      idProduto: idProduto,
+      quantidade: quantidade,
+      motivo: motivo,
+      observacao: observacao,
+    );
+
+    print('');
+    print('Saida registrada com sucesso.');
+    print('Novo saldo do produto: ${novoSaldo.toStringAsFixed(3)}');
   }
 
   Future<void> _cadastrarCategoria() async {
