@@ -24,4 +24,14 @@ class InputUtils {
       stdin.echoMode = echoAnterior;
     }
   }
+
+  static int? lerInt(String mensagem) {
+    final valor = lerTexto(mensagem);
+    return int.tryParse(valor);
+  }
+
+  static double? lerDouble(String mensagem) {
+    final valor = lerTexto(mensagem).replaceAll(',', '.');
+    return double.tryParse(valor);
+  }
 }
