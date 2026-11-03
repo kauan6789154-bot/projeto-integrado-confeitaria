@@ -7,3 +7,6 @@ environment:
 
 dependencies:
   mysql_client_plus: ^0.1.3
+
+dev_dependencies:
+  test: ^1.24.4
