@@ -3,12 +3,14 @@ import 'package:confeitaria_estoque/config/database_config.dart';
 import 'package:confeitaria_estoque/config/database_connection.dart';
 import 'package:confeitaria_estoque/models/usuario.dart';
 import 'package:confeitaria_estoque/repositories/categoria_repository.dart';
+import 'package:confeitaria_estoque/repositories/consulta_repository.dart';
 import 'package:confeitaria_estoque/repositories/fornecedor_repository.dart';
 import 'package:confeitaria_estoque/repositories/movimentacao_repository.dart';
 import 'package:confeitaria_estoque/repositories/produto_repository.dart';
 import 'package:confeitaria_estoque/repositories/usuario_repository.dart';
 import 'package:confeitaria_estoque/services/auth_service.dart';
 import 'package:confeitaria_estoque/services/cadastro_service.dart';
+import 'package:confeitaria_estoque/services/consulta_service.dart';
 import 'package:confeitaria_estoque/services/movimentacao_service.dart';
 import 'package:confeitaria_estoque/utils/console.dart';
 import 'package:confeitaria_estoque/utils/input_utils.dart';
@@ -44,6 +46,7 @@ Future<void> main() async {
     final fornecedorRepository = FornecedorRepository(connection);
     final produtoRepository = ProdutoRepository(connection);
     final movimentacaoRepository = MovimentacaoRepository(connection);
+    final consultaRepository = ConsultaRepository(connection);
 
     final cadastroService = CadastroService(
       categoriaRepository: categoriaRepository,
@@ -55,10 +58,15 @@ Future<void> main() async {
       movimentacaoRepository,
     );
 
+    final consultaService = ConsultaService(
+      consultaRepository,
+    );
+
     final menu = MenuPrincipal(
       usuario: usuario,
       cadastroService: cadastroService,
       movimentacaoService: movimentacaoService,
+      consultaService: consultaService,
       categoriaRepository: categoriaRepository,
       fornecedorRepository: fornecedorRepository,
       produtoRepository: produtoRepository,
