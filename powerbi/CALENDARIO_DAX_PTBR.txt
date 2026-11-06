@@ -1,0 +1,24 @@
+============================================================
+TABELA CALENDARIO - DAX (SEPARADOR ;)
+============================================================
+
+No Power BI:
+Modelagem -> Nova tabela
+
+Calendario =
+ADDCOLUMNS(
+    CALENDAR(
+        MIN(Movimentacoes[data_movimentacao]);
+        MAX(Movimentacoes[data_movimentacao])
+    );
+    "Ano"; YEAR([Date]);
+    "Mes Numero"; MONTH([Date]);
+    "Mes"; FORMAT([Date]; "MMM");
+    "Ano Mes"; FORMAT([Date]; "YYYY-MM")
+)
+
+Depois:
+1. Selecione Calendario.
+2. Marque como tabela de datas usando a coluna Date.
+3. Relacione:
+   Calendario[Date] 1 -> * Movimentacoes[data_movimentacao]

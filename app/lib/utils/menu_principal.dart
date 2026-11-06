@@ -43,6 +43,9 @@ class MenuPrincipal {
       print('8 - Cadastrar categoria');
       print('9 - Cadastrar fornecedor');
       print('10 - Cadastrar produto');
+      print('11 - Remover produto');
+      print('12 - Remover categoria');
+      print('13 - Remover fornecedor');
       print('0 - Sair');
 
       final opcao = InputUtils.lerTexto('Opcao: ');
@@ -78,6 +81,15 @@ class MenuPrincipal {
             break;
           case '10':
             await _cadastrarProduto();
+            break;
+          case '11':
+            await _removerProduto();
+            break;
+          case '12':
+            await _removerCategoria();
+            break;
+          case '13':
+            await _removerFornecedor();
             break;
           case '0':
             print('');
@@ -404,4 +416,90 @@ class MenuPrincipal {
 
     print('Produto cadastrado com sucesso.');
   }
+
+  Future<void> _removerProduto() async {
+    print('');
+    print('REMOVER PRODUTO');
+    await _listarProdutos();
+
+    final idProduto = InputUtils.lerInt('ID do produto: ');
+
+    if (idProduto == null) {
+      throw ArgumentError('ID do produto invalido.');
+    }
+
+    final confirmacao = InputUtils.lerTexto(
+      'Confirma a remocao do produto $idProduto? (S/N): ',
+    );
+
+    if (confirmacao.toUpperCase() != 'S') {
+      print('Remocao cancelada.');
+      return;
+    }
+
+    await cadastroService.removerProduto(
+      usuario: usuario,
+      idProduto: idProduto,
+    );
+
+    print('Produto removido com sucesso.');
+  }
+
+  Future<void> _removerCategoria() async {
+    print('');
+    print('REMOVER CATEGORIA');
+    await _listarCategorias();
+
+    final idCategoria = InputUtils.lerInt('ID da categoria: ');
+
+    if (idCategoria == null) {
+      throw ArgumentError('ID da categoria invalido.');
+    }
+
+    final confirmacao = InputUtils.lerTexto(
+      'Confirma a remocao da categoria $idCategoria? (S/N): ',
+    );
+
+    if (confirmacao.toUpperCase() != 'S') {
+      print('Remocao cancelada.');
+      return;
+    }
+
+    await cadastroService.removerCategoria(
+      usuario: usuario,
+      idCategoria: idCategoria,
+    );
+
+    print('Categoria removida com sucesso.');
+  }
+
+  Future<void> _removerFornecedor() async {
+    print('');
+    print('REMOVER FORNECEDOR');
+    await _listarFornecedores();
+
+    final idFornecedor = InputUtils.lerInt('ID do fornecedor: ');
+
+    if (idFornecedor == null) {
+      throw ArgumentError('ID do fornecedor invalido.');
+    }
+
+    final confirmacao = InputUtils.lerTexto(
+      'Confirma a remocao do fornecedor $idFornecedor? (S/N): ',
+    );
+
+    if (confirmacao.toUpperCase() != 'S') {
+      print('Remocao cancelada.');
+      return;
+    }
+
+    await cadastroService.removerFornecedor(
+      usuario: usuario,
+      idFornecedor: idFornecedor,
+    );
+
+    print('Fornecedor removido com sucesso.');
+  }
+
+
 }

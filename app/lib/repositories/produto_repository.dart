@@ -83,4 +83,30 @@ class ProdutoRepository {
       ''',
     );
   }
+
+  Future<bool> existe(int idProduto) async {
+    final resultado = await connection.execute(
+      '''
+      SELECT id_produto
+      FROM produto
+      WHERE id_produto = :id
+        AND ativo = TRUE
+      LIMIT 1
+      ''',
+      {'id': idProduto},
+    );
+
+    return resultado.rows.isNotEmpty;
+  }
+
+  Future<void> remover(int idProduto) async {
+    await connection.execute(
+      '''
+      UPDATE produto
+      SET ativo = FALSE
+      WHERE id_produto = :id
+      ''',
+      {'id': idProduto},
+    );
+  }
 }

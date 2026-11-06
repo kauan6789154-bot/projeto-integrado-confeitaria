@@ -107,6 +107,57 @@ class CadastroService {
     );
   }
 
+  Future<void> removerProduto({
+    required Usuario usuario,
+    required int idProduto,
+  }) async {
+    _exigirPermissao(usuario, 'CADASTRAR_PRODUTO');
+
+    if (!await produtoRepository.existe(idProduto)) {
+      throw ArgumentError('Produto nao existe ou ja esta inativo.');
+    }
+
+    await produtoRepository.remover(idProduto);
+  }
+
+  Future<void> removerCategoria({
+    required Usuario usuario,
+    required int idCategoria,
+  }) async {
+    _exigirPermissao(usuario, 'CADASTRAR_CATEGORIA');
+
+    if (!await categoriaRepository.existe(idCategoria)) {
+      throw ArgumentError('Categoria nao existe ou ja esta inativa.');
+    }
+
+    if (await categoriaRepository.temProdutosAtivos(idCategoria)) {
+      throw ArgumentError(
+        'Nao e possivel remover a categoria enquanto houver produtos ativos vinculados.',
+      );
+    }
+
+    await categoriaRepository.remover(idCategoria);
+  }
+
+  Future<void> removerFornecedor({
+    required Usuario usuario,
+    required int idFornecedor,
+  }) async {
+    _exigirPermissao(usuario, 'CADASTRAR_FORNECEDOR');
+
+    if (!await fornecedorRepository.existe(idFornecedor)) {
+      throw ArgumentError('Fornecedor nao existe ou ja esta inativo.');
+    }
+
+    if (await fornecedorRepository.temProdutosAtivos(idFornecedor)) {
+      throw ArgumentError(
+        'Nao e possivel remover o fornecedor enquanto houver produtos ativos vinculados.',
+      );
+    }
+
+    await fornecedorRepository.remover(idFornecedor);
+  }
+
   void _exigirPermissao(Usuario usuario, String permissao) {
     if (!usuario.ativo || !usuario.pode(permissao)) {
       throw AcessoNegadoException(

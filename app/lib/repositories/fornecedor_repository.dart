@@ -75,4 +75,30 @@ class FornecedorRepository {
 
     return resultado.rows.isNotEmpty;
   }
+
+  Future<bool> temProdutosAtivos(int idFornecedor) async {
+    final resultado = await connection.execute(
+      '''
+      SELECT id_produto
+      FROM produto
+      WHERE id_fornecedor = :id
+        AND ativo = TRUE
+      LIMIT 1
+      ''',
+      {'id': idFornecedor},
+    );
+
+    return resultado.rows.isNotEmpty;
+  }
+
+  Future<void> remover(int idFornecedor) async {
+    await connection.execute(
+      '''
+      UPDATE fornecedor
+      SET ativo = FALSE
+      WHERE id_fornecedor = :id
+      ''',
+      {'id': idFornecedor},
+    );
+  }
 }

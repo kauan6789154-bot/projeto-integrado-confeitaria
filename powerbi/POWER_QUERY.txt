@@ -1,0 +1,40 @@
+PARTE 12 - POWER QUERY
+
+Depois de conectar ao MySQL e escolher as views:
+
+1. Clique em "Transformar Dados".
+
+2. Renomeie as consultas:
+   vw_bi_produtos      -> Produtos
+   vw_bi_movimentacoes -> Movimentacoes
+
+3. Na consulta Produtos, confirme os tipos:
+   id_produto             = Numero inteiro
+   quantidade_estoque     = Numero decimal
+   estoque_minimo         = Numero decimal
+   preco_custo            = Numero decimal
+   preco_venda            = Numero decimal
+   valor_estoque_atual    = Numero decimal
+   produto                = Texto
+   categoria              = Texto
+   fornecedor             = Texto
+   status_estoque         = Texto
+
+4. Na consulta Movimentacoes, confirme:
+   id_movimentacao        = Numero inteiro
+   data_hora               = Data/Hora
+   data_movimentacao       = Data
+   quantidade              = Numero decimal
+   quantidade_assinada     = Numero decimal
+   valor_estimado          = Numero decimal
+   tipo                    = Texto
+   produto                 = Texto
+   categoria               = Texto
+   fornecedor              = Texto
+   usuario                 = Texto
+   perfil                  = Texto
+
+5. Clique em:
+   Fechar e Aplicar
+
+Não precisa mesclar tabelas no Power Query porque as views SQL já trazem os campos necessários.

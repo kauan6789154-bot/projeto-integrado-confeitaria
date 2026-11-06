@@ -1,0 +1,123 @@
+============================================================
+PARTE 12 - MEDIDAS DAX (SEPARADOR ;)
+============================================================
+
+IMPORTANTE:
+No Power BI, renomeie:
+vw_bi_produtos       -> Produtos
+vw_bi_movimentacoes  -> Movimentacoes
+
+Crie as medidas preferencialmente em uma tabela chamada "Medidas".
+
+------------------------------------------------------------
+1. TOTAL DE PRODUTOS
+------------------------------------------------------------
+
+Total Produtos =
+DISTINCTCOUNT(Produtos[id_produto])
+
+------------------------------------------------------------
+2. PRODUTOS CRITICOS
+------------------------------------------------------------
+
+Produtos Criticos =
+CALCULATE(
+    COUNTROWS(Produtos);
+    Produtos[status_estoque] = "CRITICO"
+)
+
+------------------------------------------------------------
+3. PERCENTUAL DE PRODUTOS CRITICOS
+------------------------------------------------------------
+
+% Produtos Criticos =
+DIVIDE(
+    [Produtos Criticos];
+    [Total Produtos];
+    0
+)
+
+Formate como Porcentagem.
+
+------------------------------------------------------------
+4. VALOR ATUAL DO ESTOQUE
+------------------------------------------------------------
+
+Valor Atual do Estoque =
+SUM(Produtos[valor_estoque_atual])
+
+Formate como Moeda.
+
+------------------------------------------------------------
+5. QUANTIDADE ATUAL EM ESTOQUE
+------------------------------------------------------------
+
+Quantidade Atual =
+SUM(Produtos[quantidade_estoque])
+
+------------------------------------------------------------
+6. TOTAL DE MOVIMENTACOES
+------------------------------------------------------------
+
+Total Movimentacoes =
+COUNTROWS(Movimentacoes)
+
+------------------------------------------------------------
+7. TOTAL DE ENTRADAS
+------------------------------------------------------------
+
+Total Entradas =
+CALCULATE(
+    SUM(Movimentacoes[quantidade]);
+    Movimentacoes[tipo] = "ENTRADA"
+)
+
+------------------------------------------------------------
+8. TOTAL DE SAIDAS
+------------------------------------------------------------
+
+Total Saidas =
+CALCULATE(
+    SUM(Movimentacoes[quantidade]);
+    Movimentacoes[tipo] = "SAIDA"
+)
+
+------------------------------------------------------------
+9. SALDO DAS MOVIMENTACOES
+------------------------------------------------------------
+
+Saldo Movimentado =
+[Total Entradas] - [Total Saidas]
+
+------------------------------------------------------------
+10. VALOR ESTIMADO DAS ENTRADAS
+------------------------------------------------------------
+
+Valor Entradas =
+CALCULATE(
+    SUM(Movimentacoes[valor_estimado]);
+    Movimentacoes[tipo] = "ENTRADA"
+)
+
+Formate como Moeda.
+
+------------------------------------------------------------
+11. VALOR ESTIMADO DAS SAIDAS
+------------------------------------------------------------
+
+Valor Saidas =
+CALCULATE(
+    SUM(Movimentacoes[valor_estimado]);
+    Movimentacoes[tipo] = "SAIDA"
+)
+
+Formate como Moeda.
+
+------------------------------------------------------------
+12. ULTIMA MOVIMENTACAO
+------------------------------------------------------------
+
+Ultima Movimentacao =
+MAX(Movimentacoes[data_hora])
+
+Formate como data/hora.
